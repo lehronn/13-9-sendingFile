@@ -1,5 +1,8 @@
-var fs = require('fs');                   //write and read files module
-var formidable = require('formidable');   //upload module
+var fs = require('fs');                     //write and read files module.
+var formidable = require('formidable');     //upload module.
+
+var fileName = 'No uploading file name';    //upload file name.
+var fileTitle = 'No uploading file title';  //upload file title.
 
 exports.welcome = function(request, response) {
   console.log('Rozpoczynam obsługę żądania welcome!');
@@ -14,16 +17,21 @@ exports.upload = function(request, response) {
   console.log('Rozpoczynam obsługę żądania upload.');
   var form = new formidable.IncomingForm();
   form.parse(request, function(error, fields, files) {
-    fs.renameSync(files.upload.path, "test.png");
+
+    fileName = files.upload.name;
+    fileTitle = fields.title;
+
+    fs.renameSync(fileTitle || fileName, files.upload.name);
     response.writeHead(200, {"Content-Type": "text/html"});
     response.write("received image:<br/>");
     response.write("<img src='/show' />");
     response.end();
+    return fileName, fileTitle;
   });
 }
 
 exports.show = function(request, response) {
-  fs.readFile("test.png", "binary", function(error, file) {
+  fs.readFile(fileTitle || fileName, "binary", function(error, file) {
     response.writeHead(200, {"Content-Type": "image/png"});
     response.write(file, "binary");
     response.end();
