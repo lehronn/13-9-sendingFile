@@ -1,9 +1,6 @@
 var fs = require('fs');                     //write and read files module.
 var formidable = require('formidable');     //upload module.
 
-var fileName = 'No uploading file name';    //upload file name.
-var fileTitle = 'No uploading file title';  //upload file title.
-
 exports.welcome = function(request, response) {
   console.log('Rozpoczynam obsługę żądania welcome!');
   fs.readFile('templates/start.html', function(err, html) {
@@ -14,6 +11,10 @@ exports.welcome = function(request, response) {
 }
 
 exports.upload = function(request, response) {
+
+var fileName = 'No uploading file name';    //upload file name.
+var fileTitle = 'No uploading file title';  //upload file title.
+
   console.log('Rozpoczynam obsługę żądania upload.');
   var form = new formidable.IncomingForm();
   form.parse(request, function(error, fields, files) {
@@ -29,7 +30,6 @@ exports.upload = function(request, response) {
     return [fileName, fileTitle]; //zwróć obiekt.
   });
 
-  return [fileName, fileTitle]; //zwróć obiekt.
 }
 
 var fileDetails = fs.renameSync();
