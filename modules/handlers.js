@@ -21,14 +21,20 @@ exports.upload = function(request, response) {
     fileName = files.upload.name;
     fileTitle = fields.title;
 
-    fs.renameSync(fileTitle || fileName, files.upload.name);
+    fs.renameSync(fileName || fileTitle, files.upload.name);
     response.writeHead(200, {"Content-Type": "text/html"});
     response.write("received image:<br/>");
     response.write("<img src='/show' />");
     response.end();
-    return fileName, fileTitle;
+    return [fileName, fileTitle]; //zwróć obiekt.
   });
+
+  return [fileName, fileTitle]; //zwróć obiekt.
 }
+
+var fileDetails = fs.renameSync();
+var fileName = fileDetails[0];
+var fileTitle = fileDetails[1];
 
 exports.show = function(request, response) {
   fs.readFile(fileTitle || fileName, "binary", function(error, file) {
