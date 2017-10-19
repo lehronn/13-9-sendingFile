@@ -12,8 +12,8 @@ exports.welcome = function(request, response) {
 
 exports.upload = function(request, response) {
 
-var fileName = 'No uploading file name';    //upload file name.
-var fileTitle = 'No uploading file title';  //upload file title.
+var fileName;
+var fileTitle;
 
   console.log('Rozpoczynam obsługę żądania upload.');
   var form = new formidable.IncomingForm();
@@ -30,11 +30,12 @@ var fileTitle = 'No uploading file title';  //upload file title.
     return [fileName, fileTitle]; //zwróć obiekt.
   });
 
-}
 
-var fileDetails = fs.renameSync();
-var fileName = fileDetails[0];
-var fileTitle = fileDetails[1];
+//któraś z wartości musi być undefined
+//zrobić globalną zmienną filename któ©a trzyma nazwę wrzuconego pliku
+//
+
+}
 
 exports.show = function(request, response) {
   fs.readFile(fileTitle || fileName, "binary", function(error, file) {
